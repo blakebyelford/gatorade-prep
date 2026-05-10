@@ -1,0 +1,1682 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>The Gatorade Combine — Interview Prep</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600;700;800;900&family=Barlow:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    background: #000; color: #fff;
+    font-family: 'Barlow', 'Helvetica Neue', sans-serif;
+    min-height: 100vh;
+  }
+  a { color: inherit; }
+  button { font-family: inherit; cursor: pointer; border: none; background: none; color: inherit; }
+
+  :root {
+    --black:#000; --near:#0a0a0a; --dark:#141414; --mid:#222;
+    --border:#2a2a2a; --gray:#555; --light:#888; --silver:#bbb;
+    --orange:#FBB031; --orange-deep:#E89A1D; --orange-light:#FFC857;
+    --orange-glow:rgba(251,176,49,0.12); --orange-border:rgba(251,176,49,0.3);
+    --red:#EF3C42; --red-glow:rgba(239,60,66,0.12); --red-border:rgba(239,60,66,0.3);
+    --green:#22c55e; --green-glow:rgba(34,197,94,0.15);
+    --purple:#a855f7; --purple-glow:rgba(168,85,247,0.12); --purple-border:rgba(168,85,247,0.3);
+  }
+
+  @keyframes fadeUp { from { opacity:0; transform: translateY(16px); } to { opacity:1; transform: translateY(0); } }
+  @keyframes pulse { 0%,100% { opacity:0.5; } 50% { opacity:1; } }
+
+  .fade-up { animation: fadeUp 0.5s ease both; }
+  .pulse { animation: pulse 2s infinite; }
+
+  .top-bar {
+    position: fixed; top: 0; left: 0; right: 0; height: 4px;
+    background: linear-gradient(90deg, var(--orange), var(--red), var(--orange));
+    z-index: 100;
+  }
+  .progress-bar {
+    position: fixed; top: 4px; left: 0; height: 2px;
+    background: var(--orange); z-index: 100;
+    box-shadow: 0 0 8px var(--orange);
+    transition: width 0.3s ease;
+  }
+
+  .container {
+    max-width: 800px; margin: 0 auto; padding: 60px 24px 80px 24px;
+    min-height: 100vh; display: flex; flex-direction: column;
+  }
+
+  .header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 32px; gap: 16px; flex-wrap: wrap;}
+  .logo { display: flex; align-items: center; gap: 8px; }
+  .logo svg { flex-shrink: 0; }
+  .logo-text {
+    font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 14px;
+    letter-spacing: 3px; text-transform: uppercase; color: #fff;
+  }
+  .stats-pill {
+    display: flex; gap: 12px; align-items: center;
+    background: var(--near); border: 1px solid var(--border);
+    border-radius: 6px; padding: 8px 14px;
+  }
+  .stat-item {
+    display: flex; flex-direction: column; align-items: center;
+    line-height: 1.1;
+  }
+  .stat-item .label {
+    font-family: 'JetBrains Mono', monospace; font-size: 8px;
+    color: var(--light); letter-spacing: 1.5px;
+  }
+  .stat-item .value {
+    font-family: 'Barlow Condensed', sans-serif; font-weight: 800;
+    font-size: 18px; color: var(--orange);
+  }
+  .stat-divider { width: 1px; height: 24px; background: var(--border); }
+
+  .hero { text-align: left; margin-bottom: 40px; }
+  .hero-tag {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-family: 'JetBrains Mono', monospace; font-size: 11px;
+    color: var(--orange); letter-spacing: 3px; text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+  .hero h1 {
+    font-family: 'Barlow Condensed', sans-serif; font-weight: 900;
+    font-size: clamp(48px, 8vw, 80px); line-height: 0.9;
+    letter-spacing: -2px; text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  .hero h1 .accent { color: var(--orange); }
+  .hero h1 .accent2 { color: var(--red); }
+  .hero p {
+    font-size: 16px; color: var(--silver); line-height: 1.6;
+    max-width: 600px; margin-bottom: 20px;
+  }
+
+  .mode-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 14px; margin-bottom: 32px;
+  }
+  .mode-card {
+    background: var(--near); border: 1px solid var(--border);
+    border-radius: 8px; padding: 22px 20px; text-align: left;
+    cursor: pointer; transition: all 0.2s ease; position: relative;
+    overflow: hidden; width: 100%;
+  }
+  .mode-card:hover {
+    border-color: var(--orange-border);
+    transform: translateY(-2px);
+  }
+  .mode-card.purple:hover { border-color: var(--purple-border); }
+  .mode-card::before {
+    content: ""; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+    background: linear-gradient(90deg, var(--orange), var(--red));
+  }
+  .mode-card.purple::before {
+    background: linear-gradient(90deg, var(--purple), var(--orange));
+  }
+  .mode-card .mode-num {
+    font-family: 'JetBrains Mono', monospace; font-size: 11px;
+    color: var(--orange); letter-spacing: 2px; margin-bottom: 8px;
+  }
+  .mode-card.purple .mode-num { color: var(--purple); }
+  .mode-card .mode-title {
+    font-family: 'Barlow Condensed', sans-serif; font-weight: 800;
+    font-size: 22px; text-transform: uppercase; line-height: 1;
+    margin-bottom: 8px; letter-spacing: 0.5px;
+  }
+  .mode-card .mode-subtitle {
+    font-size: 13px; color: var(--silver); line-height: 1.5;
+    margin-bottom: 12px;
+  }
+  .mode-card .mode-meta {
+    display: flex; gap: 10px; align-items: center; flex-wrap: wrap;
+    font-family: 'JetBrains Mono', monospace; font-size: 10px;
+    color: var(--light); letter-spacing: 0.5px;
+  }
+  .mode-card .pb { color: var(--orange); font-weight: 700; }
+  .mode-card.purple .pb { color: var(--purple); }
+
+  .section-header {
+    display: flex; align-items: center; gap: 12px; margin-bottom: 16px;
+  }
+  .section-header .label {
+    font-family: 'JetBrains Mono', monospace; font-size: 10px;
+    color: var(--orange); letter-spacing: 3px; text-transform: uppercase;
+    font-weight: 600;
+  }
+  .section-header .line {
+    flex: 1; height: 1px; background: linear-gradient(90deg, var(--orange-border), transparent);
+  }
+
+  .quiz-screen { animation: fadeUp 0.4s ease; }
+  .quiz-meta {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 20px; flex-wrap: wrap; gap: 12px;
+  }
+  .quiz-meta-left {
+    display: flex; align-items: center; gap: 12px;
+  }
+  .difficulty-badge {
+    font-family: 'Barlow Condensed', sans-serif; font-weight: 800;
+    font-size: 10px; padding: 4px 10px; border-radius: 3px;
+    letter-spacing: 2px; text-transform: uppercase;
+  }
+  .diff-easy { background: var(--green-glow); color: var(--green); }
+  .diff-medium { background: var(--orange-glow); color: var(--orange); }
+  .diff-hard { background: var(--red-glow); color: var(--red); }
+  .question-counter {
+    font-family: 'JetBrains Mono', monospace; font-size: 12px;
+    color: var(--light); letter-spacing: 1px;
+  }
+  .quiz-progress {
+    flex: 1; min-width: 120px; height: 4px; background: var(--mid);
+    border-radius: 2px; overflow: hidden;
+  }
+  .quiz-progress-fill {
+    height: 100%; background: linear-gradient(90deg, var(--orange), var(--red));
+    transition: width 0.4s ease;
+  }
+
+  .question-card {
+    background: var(--near); border: 1px solid var(--border);
+    border-radius: 10px; padding: 28px 26px; margin-bottom: 16px;
+    border-left: 4px solid var(--orange);
+  }
+  .question-card.purple { border-left-color: var(--purple); }
+  .question-type {
+    font-family: 'JetBrains Mono', monospace; font-size: 10px;
+    color: var(--orange); letter-spacing: 2px; text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  .question-type.purple { color: var(--purple); }
+  .question-text {
+    font-family: 'Barlow Condensed', sans-serif; font-weight: 700;
+    font-size: 22px; color: #fff; line-height: 1.3;
+    letter-spacing: 0.3px;
+  }
+  .question-context {
+    font-size: 14px; color: var(--silver); line-height: 1.6;
+    margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--border);
+    font-style: italic;
+  }
+
+  .answers { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
+  .answer {
+    background: var(--near); border: 1px solid var(--border);
+    border-radius: 8px; padding: 16px 20px; text-align: left;
+    cursor: pointer; transition: all 0.15s ease;
+    display: flex; align-items: flex-start; gap: 12px;
+    width: 100%; font-size: 14px; line-height: 1.5; color: var(--silver);
+  }
+  .answer:hover:not(.disabled) {
+    border-color: var(--orange);
+    background: var(--dark);
+  }
+  .answer.selected {
+    border-color: var(--orange);
+    background: var(--orange-glow);
+  }
+  .answer .letter {
+    font-family: 'Barlow Condensed', sans-serif; font-weight: 800;
+    font-size: 16px; color: var(--orange);
+    width: 22px; flex-shrink: 0;
+  }
+  .answer.correct {
+    border-color: var(--green);
+    background: var(--green-glow);
+  }
+  .answer.correct .letter { color: var(--green); }
+  .answer.incorrect {
+    border-color: var(--red);
+    background: var(--red-glow);
+  }
+  .answer.incorrect .letter { color: var(--red); }
+  .answer.disabled { cursor: default; }
+  .answer .text { flex: 1; }
+
+  .feedback {
+    background: var(--near); border: 1px solid var(--border);
+    border-radius: 10px; padding: 22px 24px; margin-bottom: 20px;
+    animation: fadeUp 0.4s ease;
+  }
+  .feedback.correct { border-left: 4px solid var(--green); }
+  .feedback.incorrect { border-left: 4px solid var(--red); }
+  .feedback-header {
+    display: flex; align-items: center; gap: 10px; margin-bottom: 12px;
+  }
+  .feedback-badge {
+    font-family: 'Barlow Condensed', sans-serif; font-weight: 800;
+    font-size: 12px; padding: 4px 12px; border-radius: 3px;
+    letter-spacing: 2px; text-transform: uppercase;
+  }
+  .feedback-badge.correct { background: var(--green-glow); color: var(--green); }
+  .feedback-badge.incorrect { background: var(--red-glow); color: var(--red); }
+  .feedback h3 {
+    font-family: 'Barlow Condensed', sans-serif; font-weight: 700;
+    font-size: 18px; color: #fff; text-transform: uppercase;
+    letter-spacing: 0.3px;
+  }
+  .feedback p {
+    font-size: 14px; color: var(--silver); line-height: 1.65; margin-bottom: 8px;
+  }
+  .feedback p:last-child { margin-bottom: 0; }
+  .feedback strong { color: var(--orange); font-weight: 600; }
+  .feedback .pro-tip {
+    margin-top: 12px; padding-top: 12px;
+    border-top: 1px solid var(--border);
+    font-size: 13px; color: #fff;
+  }
+  .feedback .pro-tip-label {
+    font-family: 'Barlow Condensed', sans-serif; font-weight: 800;
+    font-size: 11px; color: var(--orange); letter-spacing: 2px;
+    text-transform: uppercase; margin-right: 8px;
+  }
+
+  .actions { display: flex; gap: 10px; flex-wrap: wrap; }
+  .btn {
+    background: var(--orange); color: #000;
+    font-family: 'Barlow Condensed', sans-serif; font-weight: 800;
+    font-size: 14px; padding: 12px 22px; border-radius: 6px;
+    letter-spacing: 1.5px; text-transform: uppercase;
+    transition: all 0.15s ease;
+    display: inline-flex; align-items: center; gap: 8px;
+  }
+  .btn:hover { background: var(--orange-light); transform: translateY(-1px); }
+  .btn-secondary {
+    background: transparent; color: #fff;
+    border: 1px solid var(--gray);
+  }
+  .btn-secondary:hover { background: var(--dark); border-color: var(--orange); }
+  .btn-ghost {
+    background: transparent; color: var(--light);
+    font-size: 12px; letter-spacing: 1px;
+  }
+  .btn-ghost:hover { color: var(--orange); }
+
+  .results-screen { animation: fadeUp 0.5s ease; }
+  .results-hero {
+    background: linear-gradient(135deg, var(--near), var(--dark));
+    border: 1px solid var(--orange-border);
+    border-radius: 12px; padding: 40px 32px; text-align: center;
+    position: relative; overflow: hidden; margin-bottom: 24px;
+  }
+  .results-hero::before {
+    content: ""; position: absolute; top: 0; left: 0; right: 0; height: 4px;
+    background: linear-gradient(90deg, var(--orange), var(--red));
+  }
+  .results-rank {
+    font-family: 'JetBrains Mono', monospace; font-size: 11px;
+    color: var(--orange); letter-spacing: 3px; text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .results-title {
+    font-family: 'Barlow Condensed', sans-serif; font-weight: 900;
+    font-size: 56px; line-height: 0.95; letter-spacing: -1px;
+    text-transform: uppercase; margin-bottom: 8px;
+  }
+  .results-rank-color { color: var(--orange); }
+  .results-score {
+    font-family: 'Barlow Condensed', sans-serif; font-weight: 800;
+    font-size: 28px; color: #fff; margin-bottom: 16px;
+  }
+  .results-score .total { color: var(--light); }
+  .results-meta {
+    display: flex; gap: 18px; justify-content: center; flex-wrap: wrap;
+    font-family: 'JetBrains Mono', monospace; font-size: 11px;
+    color: var(--silver); letter-spacing: 1px;
+  }
+  .results-meta .v { color: var(--orange); font-weight: 600; }
+
+  .results-breakdown {
+    background: var(--near); border: 1px solid var(--border);
+    border-radius: 10px; padding: 24px; margin-bottom: 24px;
+  }
+  .breakdown-header {
+    display: flex; align-items: center; gap: 8px; margin-bottom: 16px;
+  }
+  .breakdown-header .label {
+    font-family: 'Barlow Condensed', sans-serif; font-weight: 800;
+    font-size: 14px; color: var(--orange); letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+  .breakdown-row {
+    display: grid; grid-template-columns: 110px 1fr 60px;
+    align-items: center; gap: 12px; padding: 8px 0;
+    border-bottom: 1px solid var(--border); font-size: 13px;
+  }
+  .breakdown-row:last-child { border-bottom: none; }
+  .breakdown-row .area {
+    font-family: 'Barlow Condensed', sans-serif; font-weight: 700;
+    font-size: 13px; letter-spacing: 1px; text-transform: uppercase;
+  }
+  .breakdown-bar {
+    height: 6px; background: var(--mid); border-radius: 3px; overflow: hidden;
+  }
+  .breakdown-fill {
+    height: 100%; background: linear-gradient(90deg, var(--orange), var(--red));
+    border-radius: 3px;
+  }
+  .breakdown-pct {
+    font-family: 'JetBrains Mono', monospace; font-size: 12px;
+    color: var(--orange); font-weight: 600; text-align: right;
+  }
+
+  .pb-banner {
+    background: var(--orange-glow); border: 1px solid var(--orange-border);
+    border-left: 4px solid var(--orange); border-radius: 6px;
+    padding: 14px 18px; margin-bottom: 16px;
+    display: flex; align-items: center; gap: 12px;
+    animation: fadeUp 0.5s 0.2s ease both;
+  }
+  .pb-banner .pb-text {
+    font-family: 'Barlow Condensed', sans-serif; font-weight: 700;
+    font-size: 16px; color: var(--orange); letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+  .pb-banner .pb-sub {
+    font-size: 12px; color: var(--silver); margin-left: auto;
+  }
+
+  .streak {
+    position: fixed; right: 24px; top: 80px;
+    background: var(--near); border: 1px solid var(--orange-border);
+    border-radius: 6px; padding: 8px 14px;
+    display: flex; align-items: center; gap: 8px;
+    z-index: 50;
+    animation: fadeUp 0.4s ease;
+  }
+  .streak .label {
+    font-family: 'JetBrains Mono', monospace; font-size: 9px;
+    color: var(--light); letter-spacing: 1.5px;
+  }
+  .streak .value {
+    font-family: 'Barlow Condensed', sans-serif; font-weight: 800;
+    font-size: 18px; color: var(--orange);
+  }
+  .streak.fire {
+    border-color: var(--red); animation: pulse 1s infinite;
+  }
+  .streak.fire .value { color: var(--red); }
+
+  .footer {
+    margin-top: auto; padding-top: 32px;
+    border-top: 1px solid var(--border);
+    display: flex; justify-content: space-between; align-items: center;
+    flex-wrap: wrap; gap: 12px;
+  }
+  .footer-left {
+    font-family: 'JetBrains Mono', monospace; font-size: 9px;
+    color: var(--gray); letter-spacing: 1.5px;
+  }
+  .footer-right { display: flex; gap: 12px; }
+
+  .bottom-bar {
+    position: fixed; bottom: 0; left: 0; right: 0; height: 4px;
+    background: linear-gradient(90deg, var(--orange), var(--red), var(--orange));
+    z-index: 100;
+  }
+
+  @media (max-width: 600px) {
+    .hero h1 { font-size: 48px; }
+    .question-text { font-size: 18px; }
+    .results-title { font-size: 40px; }
+    .breakdown-row { grid-template-columns: 90px 1fr 50px; gap: 8px; }
+    .stats-pill { padding: 6px 10px; gap: 8px; }
+    .stat-item .value { font-size: 16px; }
+    .streak { right: 12px; top: 70px; padding: 6px 10px; }
+  }
+</style>
+</head>
+<body>
+<div class="top-bar"></div>
+<div class="progress-bar" id="progressBar" style="width: 0%"></div>
+<div class="container" id="app"></div>
+<div class="bottom-bar"></div>
+
+<script>
+const boltIcon = (size = 16, color = "#FBB031") =>
+  `<svg width="${size}" height="${size}" viewBox="0 0 24 24" fill="${color}"><polygon points="13,2 3,14 12,14 11,22 21,10 12,10"/></svg>`;
+
+// =================== QUESTION BANK ===================
+const QUESTIONS = [
+  // ============================================
+  // ============ GEO / AI / DIGITAL ============
+  // ============================================
+  {
+    section: 'geo', difficulty: 'easy', type: 'knowledge',
+    q: "What does 'GEO' stand for in marketing today?",
+    options: [
+      "Geographic Engine Optimization",
+      "Generative Engine Optimization",
+      "Global Engagement Operations",
+      "Google Enhanced Optimization"
+    ],
+    correct: 1,
+    explanation: "<strong>Generative Engine Optimization</strong> is the practice of optimizing content and brand presence so AI engines (ChatGPT, Claude, Perplexity, Gemini, Google AI Overviews) cite you accurately when users ask questions. It's distinct from traditional SEO because the goal is being included in the AI's <em>generated answer</em>, not ranking on a page of links.",
+    proTip: "Some marketers use AEO (Answer Engine Optimization) interchangeably. Don't get stuck on the acronym — focus on the underlying problem: showing up in AI-generated answers."
+  },
+  {
+    section: 'geo', difficulty: 'easy', type: 'knowledge',
+    q: "Roughly how many sources does an LLM typically cite per generated answer?",
+    options: ["10 like Google's blue links", "2-7 sources", "20+ sources", "Just one"],
+    correct: 1,
+    explanation: "LLMs typically cite only <strong>2-7 sources per answer</strong>, dramatically less than Google's 10 blue links. That means GEO winners take far more share than SEO winners — the long tail effectively disappears.",
+    proTip: "This is the single most important argument for caring about GEO at all. Use it when explaining why the team should invest now."
+  },
+  {
+    section: 'geo', difficulty: 'easy', type: 'knowledge',
+    q: "Which of these is NOT a major AI search platform that brands monitor for visibility?",
+    options: ["Perplexity", "Google AI Overviews", "ChatGPT", "Yahoo! Answers"],
+    correct: 3,
+    explanation: "Yahoo! Answers shut down in 2021 and was a Q&A community, not an AI engine. The major platforms tracked for AI visibility today are <strong>ChatGPT, Claude, Perplexity, Gemini, and Google AI Overviews</strong>.",
+    proTip: "Bing Copilot is also worth knowing. Microsoft's positioning in AI search is often underweighted in conversations."
+  },
+  {
+    section: 'geo', difficulty: 'medium', type: 'knowledge',
+    q: "Which of these has been shown to outperform traditional backlinks for AI Overview presence?",
+    options: ["Domain authority score", "Web mentions (earned media without links)", "Meta description optimization", "Schema.org structured data"],
+    correct: 1,
+    explanation: "<strong>Web mentions outperform backlinks roughly 3:1</strong> for presence in AI Overviews. LLMs prioritize earned brand visibility over the link graph that defined traditional SEO. Reddit, LinkedIn, and YouTube are among the most-cited sources.",
+    proTip: "This is why CPG brands with strong earned media (like Gatorade) have a structural advantage — but also why they need to think about Reddit and forum mentions, not just press."
+  },
+  {
+    section: 'geo', difficulty: 'medium', type: 'knowledge',
+    q: "Which content structure best supports being extracted and cited by AI engines?",
+    options: [
+      "Long flowing paragraphs with lots of brand storytelling",
+      "Direct answers up top, FAQ schema, paragraphs under 120 words, comparison tables",
+      "Heavy keyword density throughout the page",
+      "Image-heavy pages with minimal text"
+    ],
+    correct: 1,
+    explanation: "AI extraction favors <strong>direct answers up top, clear H2/H3 hierarchy, FAQ schema, paragraphs under 120 words, and comparison tables</strong>. The model needs to find the answer fast and parse it cleanly. Marketing-style narrative copy is harder for LLMs to extract.",
+    proTip: "This is a common tension at CPG brands — brand teams want lyrical copy, AI discoverability needs structured copy. The answer is usually 'lead with the structured answer, then add the brand layer below.'"
+  },
+  {
+    section: 'geo', difficulty: 'medium', type: 'knowledge',
+    q: "What's the role of 'entity authority' in GEO?",
+    options: [
+      "It's the page-level keyword density",
+      "It's how clearly an LLM can identify, recognize, and trust your brand as a verified entity (linked to Wikipedia, Wikidata, structured data)",
+      "It's a measure of paid ad spend",
+      "It's the number of inbound links to your homepage"
+    ],
+    correct: 1,
+    explanation: "<strong>Entity authority is how cleanly an LLM recognizes your brand as a real, verified entity</strong>. Linking to Wikipedia/Wikidata, using consistent structured data, and building topical depth around a single entity all matter. Without entity clarity, the model may not associate your content with your brand at all.",
+    proTip: "Gatorade has incredible entity recognition (60+ years, Wikipedia presence, sports science publications). The work is making sure it's correctly linked across product variants — Gatorade vs Gatorlyte vs Propel all have entity issues."
+  },
+  {
+    section: 'geo', difficulty: 'medium', type: 'knowledge',
+    q: "Which is the most important factor in 'freshness' for AI discoverability?",
+    options: [
+      "How often you update your homepage",
+      "Recently updated content that matches the query intent, with clear date signals",
+      "Frequent social media posts",
+      "Daily blog posts on any topic"
+    ],
+    correct: 1,
+    explanation: "<strong>Freshness is about content that matches current query intent and has clear date signals</strong> (last-updated metadata, dated FAQ entries, recent timestamps). Random updates don't help. Updates that align with what consumers are asking right now do.",
+    proTip: "This is why a 'Trust What's Inside' campaign moment requires fresh, dated FAQ content tied to the exact questions consumers will ask AI engines about the campaign."
+  },
+  {
+    section: 'geo', difficulty: 'hard', type: 'knowledge',
+    q: "A 2025 Princeton study on citation bias found AI engines tend to favor what kind of content?",
+    options: [
+      "Brand-owned (.com) content over earned media",
+      "Earned media over brand-owned content",
+      "Wikipedia exclusively",
+      "Paid placements"
+    ],
+    correct: 1,
+    explanation: "Princeton's 2025 research showed AI engines favor <strong>earned media over brand-owned content</strong>. This creates an asymmetry: brands with strong PR and third-party mentions win in AI search, while brands relying mostly on owned platforms can underperform.",
+    proTip: "For Gatorade, this is good news — they have decades of earned media equity. But Gatorade.com still needs to be cite-worthy, which is exactly what this role helps solve."
+  },
+  {
+    section: 'geo', difficulty: 'hard', type: 'knowledge',
+    q: "Which of these is NOT typically a GEO measurement metric?",
+    options: [
+      "AI citation frequency",
+      "Share of voice vs. competitors in AI answers",
+      "Citation sentiment (accurate vs. inaccurate representation)",
+      "Domain authority score"
+    ],
+    correct: 3,
+    explanation: "<strong>Domain authority is a traditional SEO metric, not a GEO metric.</strong> GEO measurement focuses on how AI engines cite you: citation frequency, share of voice, citation sentiment, and AI-referred traffic via GA4. Tools like Profound, Geoptie, and Otterly.ai exist specifically for this.",
+    proTip: "If asked 'how would you measure GEO success?', name two or three of these. Bonus points if you mention that measurement is still evolving — it shows you know the space."
+  },
+  {
+    section: 'geo', difficulty: 'hard', type: 'knowledge',
+    q: "What does 'citation sentiment' measure in GEO?",
+    options: [
+      "Whether the AI's tone is positive when it mentions you",
+      "Whether the AI represents your brand accurately, neutrally, or with misleading framing in its generated answers",
+      "How users feel about AI search",
+      "The number of positive vs. negative reviews"
+    ],
+    correct: 1,
+    explanation: "<strong>Citation sentiment is whether the AI represents your brand accurately, neutrally, or misleadingly</strong>. An AI might cite you frequently but describe your product incorrectly (wrong ingredient, wrong use case, outdated positioning). That's a different problem than not being cited at all — and harder to fix.",
+    proTip: "For Gatorade Lower Sugar, citation accuracy matters a ton. If AI engines describe it as 'Gatorade with a bit less sugar' instead of 'Gatorade with 75% less sugar and no artificial colors,' that's a measurable problem with concrete fixes."
+  },
+  {
+    section: 'geo', difficulty: 'hard', type: 'knowledge',
+    q: "Which platforms are typically the most-cited sources by major LLMs?",
+    options: [
+      "Twitter/X, TikTok, Instagram",
+      "Reddit, LinkedIn, YouTube, Wikipedia",
+      "Pinterest, Tumblr, Snapchat",
+      "Brand-owned blogs exclusively"
+    ],
+    correct: 1,
+    explanation: "<strong>Reddit, LinkedIn, YouTube, and Wikipedia</strong> are among the most-cited sources by major LLMs. This is why brand strategies that ignore these platforms underperform in AI search — the AI is citing places your brand strategy has historically discounted.",
+    proTip: "Reddit specifically is wildly underweighted in most CPG strategies. For Gatorade, the running, hiking, and fitness subreddits are gold for AI visibility."
+  },
+  {
+    section: 'geo', difficulty: 'medium', type: 'scenario',
+    context: "You run a structured query test across Claude, ChatGPT, and Perplexity for the prompt 'best electrolyte drink for a long run.' Liquid I.V. gets cited 3x more often than Gatorade. Sneha asks for your read in the Tuesday meeting.",
+    q: "What's the most useful first response?",
+    options: [
+      "We should immediately buy more Liquid I.V. branded keywords on Google to defend.",
+      "Three things explain it: their content is more cite-worthy structurally, they have stronger earned mentions in long-distance running communities, and the prompt favors a powder format. Let me bring back a structured plan covering content updates, earned media targets, and a content angle on Gatorade Endurance.",
+      "AI search isn't a real channel yet, we shouldn't worry about it.",
+      "Liquid I.V. is paying for placement, that's why."
+    ],
+    correct: 1,
+    explanation: "The strong answer <strong>diagnoses the why before jumping to the what</strong>. It identifies three credible reasons (structural, earned media, product fit), and proposes a three-pronged response. This shows analytical thinking and ownership.",
+    proTip: "Sneha is finance- and ops-trained. She values structured diagnosis. When you're not sure of the answer, pivot to 'here's how I'd find the answer.'"
+  },
+  {
+    section: 'geo', difficulty: 'medium', type: 'scenario',
+    context: "Rob asks: 'If you had two weeks and a small budget to test whether GEO improvements move the needle on Gatorade.com, what would you do?'",
+    q: "Which approach lands best?",
+    options: [
+      "Run a full agency-led brand campaign across all channels.",
+      "Pick 5-10 high-intent queries, audit current AI citation status, ship structured content updates and FAQ schema on the relevant pages, then re-query weekly to track citation lift. Document the playbook for scaling.",
+      "Buy display ads targeting people who've used ChatGPT.",
+      "Wait for more research before testing anything."
+    ],
+    correct: 1,
+    explanation: "The strong answer is a <strong>scoped, falsifiable test</strong>: clear hypothesis, narrow query set, measurable lift, documented playbook. This is the language of testing-and-learning that the team would speak. It also shows you can ship in two weeks, not two quarters.",
+    proTip: "When asked hypothetical questions, default to 'narrow scope, fast learning loop, document for scale.' This works for any test plan."
+  },
+  {
+    section: 'geo', difficulty: 'hard', type: 'scenario',
+    context: "An AI engine consistently says Gatorade contains 'high fructose corn syrup' even though current formulations don't. The misinformation is showing up in 3 of the top 5 AI engines.",
+    q: "Best response strategy?",
+    options: [
+      "Sue OpenAI and Anthropic for misinformation.",
+      "Audit where the misinformation is sourced (likely outdated articles or forum posts), publish authoritative current ingredient breakdowns with structured data, work with PR to refresh outdated coverage, and re-query the engines on a 2-week cadence to verify correction.",
+      "Ignore it — AI hallucinations are unavoidable.",
+      "Add a single banner to Gatorade.com that says 'no HFCS.'"
+    ],
+    correct: 1,
+    explanation: "The strong answer treats AI misinformation as a <strong>fixable upstream problem</strong>: identify sources, publish authoritative replacements, refresh PR coverage, verify. The single banner won't propagate; legal action won't change citations. This is content gardening.",
+    proTip: "AI engines are reflective — they reflect the web they were trained on plus what's currently indexed. To change what they say, you have to change what's available to be cited."
+  },
+  {
+    section: 'geo', difficulty: 'hard', type: 'scenario',
+    context: "You're asked to audit Gatorade.com for AI extractability. You scan a product detail page and find: hero image with no alt text, brand storytelling paragraph above the fold, product description buried 600 words deep, no FAQ schema, no comparison table.",
+    q: "What's your prioritized fix list?",
+    options: [
+      "Add more brand storytelling and remove the product description.",
+      "Restructure: lead with the direct answer to 'what is this product and what does it do' in plain text, add FAQ schema for top 5 consumer questions, build a comparison table of variants, fix the alt text, keep brand storytelling but move it below the answer layer.",
+      "Just rewrite the brand storytelling to be more poetic.",
+      "Remove the product page and replace with a video."
+    ],
+    correct: 1,
+    explanation: "The strong answer <strong>preserves brand voice while fixing the AI extraction layer</strong>. Direct answer first, then schema, then comparison table, then alt text. Brand storytelling stays but moves to where it doesn't block extraction.",
+    proTip: "The phrase 'lead with the answer, support with the story' is a useful framework for any conversation about content architecture."
+  },
+  {
+    section: 'geo', difficulty: 'medium', type: 'scenario',
+    context: "Brandon asks: 'How do I get my campaigns to show up in AI search? Like, when someone asks ChatGPT about Gatorade and the World Cup, will it know about our 'Trust What's Inside' campaign?'",
+    q: "Best response?",
+    options: [
+      "It will eventually, just be patient.",
+      "Two paths: structured content on .com that cleanly explains the campaign with dated, factual sourcing AI can extract, plus earned media coverage in places AI engines actually crawl (sports media, athlete features, Reddit threads about the campaign). The campaign's social impressions don't directly help AI visibility — but the press and discussion they generate do.",
+      "Pay OpenAI to feature it.",
+      "Ignore AI search and focus on paid social."
+    ],
+    correct: 1,
+    explanation: "The strong answer <strong>distinguishes between social impressions and AI-citable content</strong>. Social moments create the buzz, but AI citations come from indexed editorial coverage and discussion forums. This is the bridge between Brandon's brand work and AI discoverability.",
+    proTip: "This is exactly the kind of 'connect Brandon's lane to your lane' answer that wins this role. Memorize this framing."
+  },
+
+  // ============================================
+  // ============ BRAND / SOCIAL / CULTURE ============
+  // ============================================
+  {
+    section: 'brand', difficulty: 'easy', type: 'knowledge',
+    q: "What's the iconic Gatorade tagline that was relaunched globally in April 2026?",
+    options: ["Just Do It", "Is It In You?", "Bring It", "Fuel the Fire"],
+    correct: 1,
+    explanation: "<strong>'Is It In You?'</strong> was relaunched globally on April 23, 2026, tied to the FIFA World Cup 2026. The campaign is called 'Trust What's Inside' and connects the original tagline's spirit to the brand's new sports-science narrative.",
+    proTip: "Gatorade leans heavily on heritage and reinvention. Reference the campaign by name if it comes up. It's the brand's biggest moment of 2026."
+  },
+  {
+    section: 'brand', difficulty: 'easy', type: 'knowledge',
+    q: "Who narrates the 2026 'Trust What's Inside' hero film?",
+    options: ["Lamar Jackson", "Clint Dempsey", "Christian Pulisic", "Caitlin Clark"],
+    correct: 1,
+    explanation: "<strong>Clint Dempsey narrates</strong> the hero film. The roster of athletes featured includes Christian Pulisic, Vinícius Júnior, Julián Álvarez, Gilberto Mora, Luis Díaz, and Tajon Buchanan — all soccer-forward given the World Cup tie-in.",
+    proTip: "The shift from football icons (Lamar Jackson, Justin Jefferson) to soccer stars in 2026 is intentional and global-facing. World Cup hosts are US/Mexico/Canada."
+  },
+  {
+    section: 'brand', difficulty: 'easy', type: 'knowledge',
+    q: "Which 2025 Super Bowl activation by Gatorade reportedly drove 5.7B+ earned impressions?",
+    options: [
+      "Gatorade Showers documentary",
+      "Gatorade Lab Super Bowl activation",
+      "Pulisic Pre-Game Hydration Special",
+      "Gx Bottle Halftime Drop"
+    ],
+    correct: 1,
+    explanation: "<strong>Gatorade Lab</strong> was the 2025 Super Bowl activation, delivering 5.7B+ earned impressions, 223M+ views, 1.6M+ engagements, and 65.3B+ earned social reach. It strengthened retailer confidence in innovation strategy and was Gatorade's most impactful Super Bowl activation ever.",
+    proTip: "Brandon was on the cross-functional team for this. Reference it specifically — it's his recent territory."
+  },
+  {
+    section: 'brand', difficulty: 'easy', type: 'knowledge',
+    q: "Which trio of college basketball stars headlined Gatorade's March Madness campaign?",
+    options: [
+      "Caitlin Clark, Angel Reese, Cameron Brink",
+      "JuJu Watkins, Paige Bueckers, Cooper Flagg",
+      "Bronny James, JJ Redick, Caleb Williams",
+      "Sabrina Ionescu, Kelsey Plum, A'ja Wilson"
+    ],
+    correct: 1,
+    explanation: "<strong>JuJu Watkins (USC), Paige Bueckers (UConn), and Cooper Flagg (Duke)</strong> headlined the March Madness campaign featuring how 'it' shows up. This is a Brandon Saranik portfolio piece — he leads Gatorade Social & Culture.",
+    proTip: "Knowing Brandon's specific cultural campaigns is the kind of detail that signals you've done the homework. Drop one of these by name if conversation goes there."
+  },
+  {
+    section: 'brand', difficulty: 'medium', type: 'knowledge',
+    q: "Brandon Saranik is the Marketing Director for which Gatorade pillar?",
+    options: ["Innovation & Product", "Sports Marketing & Athlete Roster", "Social & Culture", "Performance Media"],
+    correct: 2,
+    explanation: "<strong>Brandon leads Gatorade Social & Culture.</strong> His background is heavy on media planning at OMD, then in-house brand work, with a focus on Gen Z engagement and cultural moments. Recent wins include the Super Bowl Lab activation (5.7B+ impressions) and the March Madness campaign.",
+    proTip: "Knowing Brandon's specific focus area lets you tailor questions to him. He cares about cultural relevance, not pipeline metrics."
+  },
+  {
+    section: 'brand', difficulty: 'medium', type: 'knowledge',
+    q: "Which Gatorade product launch was supported by the biggest cross-functional team activation in March 2026?",
+    options: [
+      "Gatorade iD loyalty platform",
+      "Gatorade Lower Sugar (75% less sugar, no artificial colors)",
+      "Gx Sweat Patch",
+      "Smart Gx Bottle"
+    ],
+    correct: 1,
+    explanation: "<strong>Gatorade Lower Sugar</strong> (launched March 2026, 75% less sugar, no artificial colors) was the centerpiece of the brand's restage strategy. It's positioned to broaden Gatorade's audience from athletes-only to the 150M Americans who feel mildly dehydrated weekly.",
+    proTip: "Be ready to talk about Gatorade Lower Sugar — it's currently the brand's biggest commercial story and a frequent reference point for any conversation about the .com site."
+  },
+  {
+    section: 'brand', difficulty: 'medium', type: 'knowledge',
+    q: "What's Gatorade's 'Body of Science' initiative?",
+    options: [
+      "A new product line for elite athletes",
+      "A multi-year research commitment to better understand women's hydration and nutrition needs across life stages",
+      "A retail partnership with sports clinics",
+      "A celebrity endorsement program"
+    ],
+    correct: 1,
+    explanation: "<strong>Body of Science</strong> is Gatorade's research commitment to understanding women's hydration needs. Only 6% of sports science research has historically focused on women — Gatorade is investing to close that gap. It's an important DEI and brand authority story.",
+    proTip: "If gender, inclusion, or audience expansion comes up in conversation, this is a great reference. It shows the brand's direction beyond the typical male-athlete framing."
+  },
+  {
+    section: 'brand', difficulty: 'medium', type: 'knowledge',
+    q: "What's Gatorade's first female flag football athlete signed to the roster?",
+    options: ["Caitlin Clark", "Diana Flores", "Sabrina Ionescu", "Sydney McLaughlin"],
+    correct: 1,
+    explanation: "<strong>Diana Flores</strong> is Gatorade's first female flag football athlete, joining the roster in the 'You Know We Got IT' football campaign. She partnered with fashion designer Kristyn Juszczyk for a limited-edition Gatorade iD Drop.",
+    proTip: "Flag football is a growing pillar for Gatorade as the sport gains Olympic recognition. Naming Diana Flores shows you're tracking emerging stories."
+  },
+  {
+    section: 'brand', difficulty: 'hard', type: 'knowledge',
+    q: "What's the new portfolio architecture Gatorade announced in April 2026?",
+    options: [
+      "Premium / Standard / Value",
+      "Hydrate Better / Faster / Longer than water",
+      "Pre-Workout / In-Workout / Post-Workout",
+      "Adult / Youth / Performance"
+    ],
+    correct: 1,
+    explanation: "<strong>The Advanced Hydration System</strong> labels products by what they do: Hydrate Better, Faster, or Longer than water. Gatorlyte Longer Lasting (rolling out late 2026, national 2027) is the first product fully built around this architecture. It's a strategic shift from 'sports drink' to 'functional hydration.'",
+    proTip: "This architecture is critical context — it's the framework everything new at Gatorade is being built around. Reference it specifically when discussing site architecture or content strategy."
+  },
+  {
+    section: 'brand', difficulty: 'hard', type: 'knowledge',
+    q: "Approximately how old is the Gatorade brand?",
+    options: ["30 years", "45 years", "60 years", "75 years"],
+    correct: 2,
+    explanation: "<strong>Gatorade is 60 years old</strong> (founded 1965 at the University of Florida). The brand celebrated this milestone recently. Knowing this matters because the heritage angle is increasingly central to brand storytelling — 'science-backed for 60 years.'",
+    proTip: "When discussing Gatorade's positioning, the heritage line is potent: 'Six decades of studying athletes' is a moat competitors can't replicate."
+  },
+  {
+    section: 'brand', difficulty: 'hard', type: 'knowledge',
+    q: "Which Gatorade product became the fastest brand to hit $1B in sales in PepsiCo history?",
+    options: ["Gatorade Frost", "Gatorade Zero (G Zero)", "Propel", "Gatorlyte"],
+    correct: 1,
+    explanation: "<strong>Gatorade Zero (G Zero)</strong> became the fastest brand to hit $1B in sales in PepsiCo history. It was a major proof point for the Gatorade portfolio's commercial machine and a credit on the resume of multiple senior Gatorade execs.",
+    proTip: "If Sneha asks about Gatorade's commercial wins, G Zero is a flagship example. It also reinforces that 'lower sugar' is a longer-running theme for the brand, not a new pivot."
+  },
+  {
+    section: 'brand', difficulty: 'medium', type: 'scenario',
+    context: "Brandon asks: 'How do you think about the relationship between a viral social moment and Gatorade.com?'",
+    q: "Best response?",
+    options: [
+      "Social drives awareness, .com drives commerce — they're separate funnels.",
+      "When the social team lands a moment, .com should be a force multiplier: search-intent capture pages, FAQ refreshes, CRM acquisition pushes, and instrumentation. The site shouldn't just react to brand moments — it should extend them.",
+      "Honestly, I think social and .com should run independently to keep things simple.",
+      "Whatever the social team is doing, the site should mirror exactly."
+    ],
+    correct: 1,
+    explanation: "The strong answer treats .com as a <strong>force multiplier for brand moments</strong>, not a separate funnel and not a passive mirror. It names four specific extension levers (search capture, FAQ, CRM, instrumentation). This is the answer Brandon is hoping to hear.",
+    proTip: "Brandon's whole job is making cultural moments matter. If you can articulate how digital amplifies his work, you've shown why this role matters to his team."
+  },
+  {
+    section: 'brand', difficulty: 'hard', type: 'scenario',
+    context: "Brandon shows you a March Madness asset featuring Cooper Flagg. He asks: 'If we wanted to make this moment more discoverable in AI search, what would you do?'",
+    q: "Sharpest answer?",
+    options: [
+      "Add the keyword 'Cooper Flagg' to every page on Gatorade.com.",
+      "Stand up a content hub — a fact-based piece on Cooper Flagg's hydration approach citing Gatorade Sports Science, structured with FAQ schema. Earn mentions in Reddit basketball communities and college sports outlets. The asset itself is the spark; the content hub is what AI engines pick up.",
+      "Pay for ads on ChatGPT.",
+      "Just hope the social impressions are enough."
+    ],
+    correct: 1,
+    explanation: "The strong answer connects <strong>brand creative to GEO mechanics</strong>: the asset earns attention, the content hub earns citations, the structured format makes it extractable, and the earned mentions in communities AI engines actually crawl drive long-term presence.",
+    proTip: "This is the exact sweet spot for the role: bridging brand storytelling with AI discoverability. If you can articulate this connection clearly, you've shown why this role exists."
+  },
+  {
+    section: 'brand', difficulty: 'medium', type: 'scenario',
+    context: "Brandon's team is launching a Lamar Jackson football campaign. He asks how digital should support without 'making it feel like a sales pitch.'",
+    q: "Best framing?",
+    options: [
+      "We just put the Buy Now button next to every Lamar mention.",
+      "Digital adds context, not commerce. The .com side hosts the longer-form story — Lamar's training, hydration approach, the 'IT' narrative — while CRM nurtures fans who engaged with the moment. Commerce moments come later when context has already been built.",
+      "Send a discount code to everyone who likes a Lamar post.",
+      "Don't add anything. Let social do its thing."
+    ],
+    correct: 1,
+    explanation: "The strong answer respects <strong>the brand's storytelling rhythm</strong>: digital extends the narrative first, commerce comes later. Brandon will love this because it shows you understand brand-to-commerce flow, not just commerce extraction.",
+    proTip: "Use 'digital adds context, not commerce' as a framing line — it's exactly the kind of articulate principle Brandon would recognize as smart."
+  },
+  {
+    section: 'brand', difficulty: 'medium', type: 'scenario',
+    context: "A meme account on TikTok dunks on Gatorade with a 50K-view video saying 'why does Gatorade taste like sweat now?' It starts trending.",
+    q: "Best 24-hour response from your seat?",
+    options: [
+      "Sue the account.",
+      "Don't engage publicly — but do refresh FAQ content on flavor changes (linked to the 2026 artificial color removal), draft talking points for sales and customer service, monitor for AI engine pickup, and brief Brandon on whether a creator response would be on-brand. The site work matters whether or not we respond publicly.",
+      "Post a sarcastic reply from the brand account.",
+      "Pull all current ad spend."
+    ],
+    correct: 1,
+    explanation: "The strong answer is <strong>defensive site work plus optionality on creative response</strong>. The flavor-change story is real (artificial colors are being removed), so the FAQ work is a real asset. Whether the brand engages publicly is Brandon's call.",
+    proTip: "Showing you can act decisively in the digital lane while staying out of the brand-voice lane is critical. Stay in your seat."
+  },
+
+  // ============================================
+  // ============ COMMERCIAL / OPS (Sneha) ============
+  // ============================================
+  {
+    section: 'commercial', difficulty: 'easy', type: 'knowledge',
+    q: "Gatorade iD is the brand's loyalty platform. Roughly how many launch impressions did it generate?",
+    options: ["200 million", "2 billion", "21.7 billion", "100 billion"],
+    correct: 2,
+    explanation: "<strong>Gatorade iD launched in January 2025 with 21.7B impressions and 18,878 day-1 sign-ups</strong>, anchored by the DJ Khaled drop. It's powered by Oracle CrowdTwist and was PepsiCo's first SMS + points-and-rewards ecosystem.",
+    proTip: "Gatorade iD is the connective tissue between Brandon's culture moments and Sneha's commerce metrics. It's first-party data, retention, and segmentation in one platform."
+  },
+  {
+    section: 'commercial', difficulty: 'easy', type: 'knowledge',
+    q: "How do members earn points in Gatorade iD?",
+    options: [
+      "10 points per dollar on Gatorade portfolio products (Gatorade, Propel, Fast Twitch, Evolve, Muscle Milk), with a 5,000-point monthly cap",
+      "1 point per purchase regardless of size",
+      "Points only for buying through Gatorade.com",
+      "Members buy points for $1 each"
+    ],
+    correct: 0,
+    explanation: "<strong>10 points per $1</strong> on the Gatorade portfolio, capped at 5,000 points per month. Free shipping, early access to drops, and limited-edition merch are member benefits. It's a portfolio-wide system, not a single-product loyalty play.",
+    proTip: "Knowing the iD point structure shows you've actually engaged with the platform like a consumer. That's a small signal that lands well."
+  },
+  {
+    section: 'commercial', difficulty: 'medium', type: 'knowledge',
+    q: "Which agency partner built the Gatorade Adobe Firefly bottle personalization experience?",
+    options: ["Wieden+Kennedy", "VML", "Work & Co (part of Accenture Song)", "Ogilvy"],
+    correct: 2,
+    explanation: "<strong>Work & Co built the experience</strong>, leveraging 200,000 pre-generated assets via Adobe Firefly Services. Results: 700M+ earned impressions, +137% squeeze-bottle sales, +30% daily loyalty sign-ups. Custom bottles priced at $34.99.",
+    proTip: "Knowing the agency partner shows you've done the homework. But more importantly, understanding the commercial outcomes (squeeze bottle lift, loyalty signups) is what Sneha cares about."
+  },
+  {
+    section: 'commercial', difficulty: 'medium', type: 'knowledge',
+    q: "What's the price point of a custom Gatorade Squeeze Bottle on Gatorade.com?",
+    options: ["$9.99", "$19.99", "$34.99", "$49.99"],
+    correct: 2,
+    explanation: "<strong>$34.99</strong> for a custom Squeeze Bottle. The Adobe Firefly personalization drove +137% squeeze-bottle sales — meaning the AI experience actually changed commercial outcomes, not just impressions.",
+    proTip: "When discussing the Firefly partnership with Sneha, lead with the commercial lift, not the impression count. She'll appreciate the framing."
+  },
+  {
+    section: 'commercial', difficulty: 'medium', type: 'knowledge',
+    q: "Sneha Bhattacharyya Gill came up through which functional path before becoming Director of Marketing?",
+    options: [
+      "Brand → Innovation",
+      "Finance → eCommerce Commercialization → Marketing",
+      "Sales → Trade Marketing",
+      "Agency → In-house Brand"
+    ],
+    correct: 1,
+    explanation: "<strong>Sneha's path was Finance → eCommerce → Marketing</strong>, with a Michigan Ross MBA in between. That's why she'll evaluate ideas through a P&L and operations lens, not just a brand lens.",
+    proTip: "If Sneha asks a question that feels strategic, give a strategic answer. If she asks one that feels operational, give specific examples. Her style mirrors her path — analytical and pragmatic."
+  },
+  {
+    section: 'commercial', difficulty: 'medium', type: 'knowledge',
+    q: "Which Gatorade product line is Sneha known for working on outside of her current Marketing Director role?",
+    options: [
+      "Gatorade Endurance and Gatorade Energy",
+      "Gatorade Zero and Gatorlyte",
+      "Propel and Hydration Booster",
+      "Muscle Milk and Evolve"
+    ],
+    correct: 1,
+    explanation: "Sneha is associated with <strong>Gatorade Zero and Gatorlyte</strong>. She also worked on <strong>Hydration Booster</strong>, the powder mix launching in Great Britain — relevant to the broader 'functional hydration' play.",
+    proTip: "Sneha launched Hydration Booster internationally. If conversation goes to global expansion or powder formats, that's her territory."
+  },
+  {
+    section: 'commercial', difficulty: 'hard', type: 'knowledge',
+    q: "Rob McCutcheon's last Gatorade.com redesign delivered which result?",
+    options: [
+      "+50% conversion lift",
+      "170 bps conversion lift, +203% daily sales growth",
+      "Doubled site traffic",
+      "Reduced bounce rate by 40%"
+    ],
+    correct: 1,
+    explanation: "<strong>170 bps conversion lift and +203% daily sales growth</strong>. Two full Gatorade.com redesigns under Rob's leadership. This is the bar — incremental improvements measured in basis points and meaningful sales lift.",
+    proTip: "If asked about Gatorade.com KPIs, mention conversion lift in basis points, AOV, and daily sales growth. That's the language Sneha and Rob speak."
+  },
+  {
+    section: 'commercial', difficulty: 'hard', type: 'knowledge',
+    q: "What does AOV stand for in eCommerce, and what was the AOV change on Gatorade.com after the most recent redesign?",
+    options: [
+      "Annual Order Volume — went from $43K to $68K",
+      "Average Order Value — went from $43 to $68",
+      "Aggregate Online Visitors — went from 43K to 68K",
+      "Active Online Visits — went from 43% to 68%"
+    ],
+    correct: 1,
+    explanation: "<strong>Average Order Value (AOV) went from $43 to $68</strong> after the most recent Gatorade.com redesign. This metric is critical — driving AOV up is more efficient than driving more visits, and it's how eCommerce teams measure design effectiveness.",
+    proTip: "AOV is the kind of mid-funnel KPI Sneha lives in. If you mention 'how do you balance AOV with conversion rate,' you've signaled fluency in eCom mechanics."
+  },
+  {
+    section: 'commercial', difficulty: 'medium', type: 'scenario',
+    context: "Sneha asks: 'You're three months in. What does success look like for you in this role from a commercial perspective?'",
+    q: "Best framing?",
+    options: [
+      "I'd want to ship a big strategic transformation in my first 90 days.",
+      "By month three, I'd want to be running the .com calendar reliably, have shipped at least one measurable improvement to FAQ or CRM that connects to commercial outcomes, and have a documented test-and-learn agenda for GEO that the team has bought into. The bar is reliability first, then proof of incremental impact, then scalable frameworks.",
+      "Hard to say without being in the role.",
+      "Whatever the team thinks success looks like."
+    ],
+    correct: 1,
+    explanation: "The strong answer follows a <strong>'reliability → impact → scale'</strong> arc. It's measured, sequential, and outcome-oriented. It also shows you understand the difference between starting strong (operational) and adding strategic value (frameworks).",
+    proTip: "Sneha specifically values structured thinking. The phrase 'reliability first, then proof of incremental impact, then scalable frameworks' is exactly the cadence MBAs talk about results."
+  },
+  {
+    section: 'commercial', difficulty: 'hard', type: 'scenario',
+    context: "Sneha presents: 'Gatorade.com FAQ traffic for 'how much sodium is in Gatorade Lower Sugar' just spiked 400% week-over-week. What's your first move?'",
+    q: "Sharpest answer?",
+    options: [
+      "Update the FAQ answer for that query immediately.",
+      "Three moves in parallel: validate the FAQ accuracy and consumer-friendliness, sync with brand and R&D on whether there's a broader content gap, check whether AI engines are surfacing our FAQ correctly or if a competitor is. Treat the spike as a signal of consumer concern, not just a content task.",
+      "Wait for direction from the brand team.",
+      "Run a Google Ads campaign on that keyword."
+    ],
+    correct: 1,
+    explanation: "The strong answer treats a traffic spike as a <strong>diagnostic signal, not just a workflow ticket</strong>. It validates the existing answer, looks for the broader pattern, and checks AI surfacing — all in parallel. This is exactly the operational instinct Sneha is looking for.",
+    proTip: "When something unusual happens, never just react. The pattern is: 'fix what's broken, find what's adjacent, learn what's structural.' Use that frame liberally."
+  },
+  {
+    section: 'commercial', difficulty: 'medium', type: 'scenario',
+    context: "Sneha asks: 'How do you balance speed with quality when you're shipping content updates to Gatorade.com weekly?'",
+    q: "Best response?",
+    options: [
+      "Quality always wins. Better to delay than ship something subpar.",
+      "Speed always wins. Ship and iterate.",
+      "Tiered standards: brand-exposed content (homepage, hero placements) holds the highest bar with full review cycles. Operational content (FAQ updates, tile rotations) ships fast through clear templates and brand-approved patterns. The trick is making the templates good enough that 'fast' isn't 'sloppy.'",
+      "Whatever pace the team is used to."
+    ],
+    correct: 2,
+    explanation: "The strong answer rejects the false binary and offers a <strong>tiered framework</strong>: brand-exposed content gets full review, operational content moves fast through templates. This shows you understand both the brand quality bar and the operational reality of shipping at cadence.",
+    proTip: "Sneha will love this answer because it's the kind of operating model an MBA would design. Ops-thinking with brand awareness."
+  },
+  {
+    section: 'commercial', difficulty: 'medium', type: 'scenario',
+    context: "Gatorade iD has 200K+ active members. Sneha asks: 'How would you use that audience to inform what we publish on Gatorade.com?'",
+    q: "Best answer?",
+    options: [
+      "Mass-email all members weekly.",
+      "Layer iD behavioral data over .com analytics: which products do power users browse but not buy, which content drives them deeper, which queries do they search vs. anonymous visitors. Then use those insights to prioritize FAQ updates, page restructures, and personalization tests on .com — feeding back into iD with smarter messaging.",
+      "Survey them about what they want.",
+      "Just track total revenue from members."
+    ],
+    correct: 1,
+    explanation: "The strong answer treats iD as a <strong>data layer for .com optimization</strong>, not just a marketing channel. It identifies behavioral signals (browse-not-buy, content depth, query differences) and uses them to inform site decisions — closing the loop back to iD.",
+    proTip: "Sneha came up through eCommerce. She'll appreciate any answer that frames first-party data as fuel for better decisions, not just as a list to email."
+  },
+  {
+    section: 'commercial', difficulty: 'hard', type: 'scenario',
+    context: "Sneha shares that the team is testing whether a major homepage redesign would lift conversion. The redesign would take 8 weeks. What's your read?",
+    q: "Best response?",
+    options: [
+      "Let's ship the redesign — bigger swings have bigger payoffs.",
+      "Two weeks of small, surgical tests on the current homepage first — hero copy variants, CTA placement, FAQ accordion, product card structure — to identify which levers move conversion before committing 8 weeks of work. The redesign should encode wins, not assumptions.",
+      "Don't redesign — site is fine.",
+      "Outsource to an agency to move faster."
+    ],
+    correct: 1,
+    explanation: "The strong answer is <strong>'test small before betting big'</strong>: surgical tests reveal which levers actually move conversion, then the redesign codifies the proven changes. This is the discipline of someone who's been burned by big-bang launches that didn't move the needle.",
+    proTip: "Rob has run two redesigns. He likely tests heavily before committing. Speak this language — Sneha and Rob will both recognize it as eCom maturity."
+  },
+  {
+    section: 'commercial', difficulty: 'medium', type: 'scenario',
+    context: "Sneha asks: 'You inherit a CRM with 200K iD members. What's the first email you'd send?'",
+    q: "Best move?",
+    options: [
+      "A welcome email to everyone.",
+      "Nothing — first I'd audit segmentation, behavioral cohorts, and previous send history. The first new email I'd ship would be informed by what's worked and where the data shows opportunity. The worst thing is sending a generic blast that trains members to ignore future emails.",
+      "A discount code to drive immediate revenue.",
+      "Whatever the brand team wants."
+    ],
+    correct: 1,
+    explanation: "The strong answer <strong>refuses to send before diagnosing</strong>. CRM is about earned trust over time — the first email under a new owner sets the precedent. Diagnose first, segment first, send second.",
+    proTip: "This answer separates email operators from email senders. Sneha and Rob will both recognize the difference instantly."
+  },
+
+  // ============================================
+  // ============ ROB LAB / PLATFORM ============
+  // ============================================
+  {
+    section: 'rob', difficulty: 'easy', type: 'knowledge',
+    q: "What's Rob McCutcheon's title at Gatorade?",
+    options: [
+      "Head of AI Discoverability",
+      "Director, Digital Strategy & Ecosystems",
+      "Senior VP of Marketing",
+      "Director of eCommerce"
+    ],
+    correct: 1,
+    explanation: "<strong>Director, Digital Strategy & Ecosystems</strong>. Rob owns Gatorade.com, the Gx connected ecosystem (App, Sweat Patch, Smart Bottle), the AI Discoverability function, and broader DTC strategy. He's a Director-level platform owner — exactly your future skip-level or two-up.",
+    proTip: "His title says 'Ecosystems' for a reason. He thinks in connected systems, not single channels. When you talk to him, frame your ideas as fitting into a larger ecosystem."
+  },
+  {
+    section: 'rob', difficulty: 'easy', type: 'knowledge',
+    q: "Before joining Gatorade in-house, where did Rob work on the brand?",
+    options: ["VML (as agency)", "Wieden+Kennedy", "Ogilvy", "Edelman"],
+    correct: 0,
+    explanation: "<strong>Rob worked at VML</strong> as Group Director, Strategy and Innovation (2015-2017), where he led digital strategy for Gatorade as the agency lead. He embedded into client operations and built strategic VC partnerships with Andreessen Horowitz startups before going in-house at PepsiCo in 2017.",
+    proTip: "Rob's path from agency to in-house client mirrors many digital strategy leaders. It explains his comfort with both vendor management and internal stakeholder navigation."
+  },
+  {
+    section: 'rob', difficulty: 'easy', type: 'knowledge',
+    q: "What did Rob study in undergrad?",
+    options: ["Marketing", "Computer Science", "Philosophy", "Business Administration"],
+    correct: 2,
+    explanation: "<strong>Philosophy at Kenyon College.</strong> He also has an M.S. in Integrated Marketing from NYU. The philosophy background explains his comfort with ideas, frameworks, and second-order thinking — and why he writes publicly about 'how knowledge systems, AI, and brand strategy intersect.'",
+    proTip: "Rob's the kind of leader who'll respond to interesting half-formed thoughts more than rehearsed pitches. Lean into ideas with him, not credentials."
+  },
+  {
+    section: 'rob', difficulty: 'medium', type: 'knowledge',
+    q: "Which connected product did Rob lead launch for that won CES Innovation, Fast Company Innovation by Design, and Webby awards?",
+    options: ["Gatorade iD", "The Gx App and Gx Sweat Patch", "Gatorade.com 2.0", "Smart Gx Bottle (alone)"],
+    correct: 1,
+    explanation: "<strong>The Gx App + Gx Sweat Patch</strong> ecosystem won multiple awards (CES Innovation, Fast Company Innovation by Design x2, Webby, Beverage Digest Best Technology Innovation, Core77). Combined: 6.2B launch impressions, 475M+ workouts logged, 25M+ scans, 4.6-star rating.",
+    proTip: "The Gx ecosystem is Rob's signature work. Reference it when discussing connected commerce or brand-tech partnerships."
+  },
+  {
+    section: 'rob', difficulty: 'medium', type: 'knowledge',
+    q: "Which AI partnership did Rob direct that combined personalization with brand storytelling?",
+    options: [
+      "Gatorade × OpenAI",
+      "Gatorade × Adobe (Firefly bottle customization)",
+      "Gatorade × Microsoft Copilot",
+      "Gatorade × Anthropic"
+    ],
+    correct: 1,
+    explanation: "<strong>The Adobe Firefly partnership</strong>. Rob directed the AI-powered bottle customization experience launched October 2024 at Adobe MAX. 200K+ pre-generated assets, 700M+ earned impressions, +137% squeeze-bottle sales, +30% daily loyalty sign-ups.",
+    proTip: "The Firefly partnership is one of the most-cited brand-AI collaborations in CPG. If you mention it specifically by partnership name (not just 'AI personalization'), you've signaled real fluency."
+  },
+  {
+    section: 'rob', difficulty: 'medium', type: 'knowledge',
+    q: "How many Gatorade.com redesigns has Rob led?",
+    options: ["1", "2 full redesigns", "5+", "None — he just optimized existing"],
+    correct: 1,
+    explanation: "<strong>Two full redesigns</strong>, delivering 170 bps conversion lift and +203% daily sales growth. Each redesign is a multi-month effort encompassing UX, performance, content architecture, and CRM integration.",
+    proTip: "Rob has redesigned Gatorade.com twice — meaning he's lived through the 'big bang vs. incremental' debate twice. Speak the language of testing-and-learning, not big swings."
+  },
+  {
+    section: 'rob', difficulty: 'medium', type: 'knowledge',
+    q: "How does Rob describe the public-facing focus of his current work?",
+    options: [
+      "How to scale paid social",
+      "How brands remain discoverable and trusted in an AI-driven world",
+      "How to build retail partnerships",
+      "How to launch new products"
+    ],
+    correct: 1,
+    explanation: "<strong>'How brands remain discoverable and trusted in an AI-driven world'</strong> — this is Rob's exact LinkedIn framing. His work sits at the intersection of AI, commerce, and brand authority. He examines how answer engines, recommendation systems, and retail AI influence consumer discovery.",
+    proTip: "Rob's specific phrase 'discoverable and trusted' is gold. If you reflect his language back during conversation — even partially — it signals attention and shared vocabulary."
+  },
+  {
+    section: 'rob', difficulty: 'medium', type: 'knowledge',
+    q: "Rob's M.S. is in what specifically?",
+    options: ["Computer Science", "Marketing Analytics", "Integrated Marketing (NYU)", "Business Administration"],
+    correct: 2,
+    explanation: "<strong>M.S. in Integrated Marketing from NYU (2008-2010)</strong>. Combined with his Philosophy BA from Kenyon, this is a distinctive academic profile — humanities thinking + structured marketing discipline.",
+    proTip: "If conversation gets philosophical or framework-heavy, lean in. He'll appreciate the depth."
+  },
+  {
+    section: 'rob', difficulty: 'hard', type: 'knowledge',
+    q: "Before SapientRazorfish, what was Rob's earlier career path?",
+    options: [
+      "Investment banking",
+      "Touring musician (signed to Jive Records, opened for the Allman Brothers, played Bonnaroo 2006)",
+      "Consulting at McKinsey",
+      "Tech startup founder"
+    ],
+    correct: 1,
+    explanation: "<strong>Touring musician</strong>. Founding member of American Minor, signed to Jive Records and Chrysalis Music Group. Toured with the Allman Brothers, Tom Petty, Lynyrd Skynyrd, Blues Traveler. Played Bonnaroo 2006. Co-wrote 'Something You Ain't Got' for Cracker.",
+    proTip: "The musician-to-marketer leap is genuine humanity in his story. Acknowledging it (lightly, once, not as a focal point) signals you actually read his profile carefully."
+  },
+  {
+    section: 'rob', difficulty: 'hard', type: 'knowledge',
+    q: "How many direct reports has Rob mentored to promotion?",
+    options: ["1", "2", "3", "5"],
+    correct: 2,
+    explanation: "<strong>3 direct reports promoted</strong>. He also serves as a Digital Ambassador across PepsiCo. This matters because it signals he's a developer of people, not just a deliverer of work.",
+    proTip: "If asked about your career growth interests, frame development as something you both contribute and seek. Rob will recognize his own pattern."
+  },
+  {
+    section: 'rob', difficulty: 'hard', type: 'knowledge',
+    q: "Rob mentions writing publicly about which intersection?",
+    options: [
+      "Sports and fashion",
+      "Music and marketing",
+      "Knowledge systems, AI, and brand strategy",
+      "Commerce and culture"
+    ],
+    correct: 2,
+    explanation: "<strong>Knowledge systems, AI, and brand strategy</strong> — Rob's exact words from his LinkedIn summary. This 'knowledge systems' framing is very specific — most marketers don't think in those terms. It signals an intellectual interest in how information moves and is trusted.",
+    proTip: "Reflecting his 'knowledge systems' phrase back during the conversation (even partially) is one of the highest-impact signals you can send. It tells him you read carefully."
+  },
+  {
+    section: 'rob', difficulty: 'medium', type: 'scenario',
+    context: "Rob asks: 'How would you describe what's actually new about AI search vs. traditional search, in plain language?'",
+    q: "Strongest framing?",
+    options: [
+      "It's just Google with extra steps.",
+      "Traditional search returned a menu of options for the user to evaluate. AI search returns a single synthesized answer. The economic shift is that being the source of that synthesized answer is worth far more than ranking 4th on a Google page — but the requirement for being included is fundamentally different. It's less about keywords and more about being a credible, citable entity.",
+      "AI search will replace Google entirely soon.",
+      "Both work the same way under the hood."
+    ],
+    correct: 1,
+    explanation: "The strong answer captures <strong>the economic shift, the structural shift, and the requirement shift</strong> in plain language. It's the kind of articulate framing Rob would respect — clear, layered, and not relying on jargon.",
+    proTip: "Rob is a philosophy major. He'll respect crisp definitions and clear distinctions. Practice articulating concepts in plain English before the call."
+  },
+  {
+    section: 'rob', difficulty: 'medium', type: 'scenario',
+    context: "Rob says: 'I've been thinking about whether the team should invest more in earned media or owned content for AI visibility. What's your read?'",
+    q: "Best answer?",
+    options: [
+      "Earned, always.",
+      "Owned, always.",
+      "Both — but with different goals. Earned media drives the entity authority and citation breadth that AI engines reward. Owned content makes sure when they cite us, the linked source has accurate, structured, current information. They're complementary investments, not competing ones.",
+      "Whatever's cheaper."
+    ],
+    correct: 2,
+    explanation: "The strong answer <strong>refuses the false binary</strong> and explains why both matter, with different functions. Earned drives authority; owned ensures accuracy when cited. That's a sophisticated framing.",
+    proTip: "When Rob asks 'X or Y?' he's often testing whether you can hold both ideas. Resist the binary. Show the relationship."
+  },
+  {
+    section: 'rob', difficulty: 'hard', type: 'scenario',
+    context: "Rob shares: 'We saw 59% AI visibility increase across 9 platforms. But I'm wondering — is visibility actually the right north star metric, or are we measuring the easier thing?'",
+    q: "Sharpest response?",
+    options: [
+      "Visibility is the right metric. More is better.",
+      "Visibility is necessary but not sufficient. The deeper metric is citation utility — when we're cited, are consumers actually clicking through, converting, or forming brand preference? Citation frequency without downstream impact is vanity. The harder measurement is closing the loop between AI citation and consumer action.",
+      "We should measure impressions like a regular ad campaign.",
+      "There's no good way to measure this."
+    ],
+    correct: 1,
+    explanation: "The strong answer <strong>questions the premise without dismissing it</strong>. Visibility is foundational; citation utility is the deeper question. Naming 'citation frequency without downstream impact is vanity' is exactly the kind of intellectual rigor Rob would respect.",
+    proTip: "Rob's question is a tell — he's already wondering this himself. Validating his suspicion while extending it shows you can think alongside him, not just for him."
+  },
+  {
+    section: 'rob', difficulty: 'hard', type: 'scenario',
+    context: "Rob asks: 'If you joined the team, what would you NOT try to do in your first 90 days?'",
+    q: "Best answer?",
+    options: [
+      "I'd try to do everything.",
+      "Three things: rewrite the GEO strategy (the AI Discoverability team is doing that work), replace the existing CRM cadence (I need to understand it before changing it), and pretend I have answers I haven't earned. The fastest way to lose trust in a new role is to overclaim. I'd rather earn the right to bigger contributions through reliable execution and good questions.",
+      "I wouldn't make any decisions.",
+      "I'd let you tell me what not to do."
+    ],
+    correct: 1,
+    explanation: "The strong answer names <strong>three specific 'not-to-dos' with the reasoning</strong>: don't displace the AI team's work, don't change CRM before understanding it, don't overclaim. This is humble and operationally smart — exactly the temperament Rob wants in someone supporting his platform.",
+    proTip: "Use this 'three things I won't try to do' framework as a back-pocket answer. It's structured humility, which is a rare trait."
+  },
+  {
+    section: 'rob', difficulty: 'medium', type: 'scenario',
+    context: "Rob's team is debating whether Gatorade.com should host more long-form content (athlete profiles, sports science articles) or stay product-forward.",
+    q: "Best read?",
+    options: [
+      "Cut all long-form. Site is for selling.",
+      "Add a content layer that builds entity authority for AI search and brand storytelling depth — but with a clear architecture: long-form lives in dedicated paths, doesn't dilute conversion-focused product pages, and connects back to product moments where relevant. Treat content as a top-of-funnel and AI-discoverability asset, not a homepage takeover.",
+      "Make every page long-form.",
+      "Whatever Brandon decides."
+    ],
+    correct: 1,
+    explanation: "The strong answer offers <strong>a clear architecture, not a binary</strong>. Long-form has a place (top-of-funnel + AI authority) but doesn't pollute conversion paths. This is the way platform thinkers solve content tensions.",
+    proTip: "Rob runs a platform. Platform thinkers always look for architectures that let multiple goals coexist. Speak that language."
+  },
+  {
+    section: 'rob', difficulty: 'hard', type: 'scenario',
+    context: "Rob is exploring whether AI tools could transform how the team produces content (FAQs, copy variants, A/B test ideation). He asks: 'How would you actually do that without losing quality?'",
+    q: "Best play?",
+    options: [
+      "Use ChatGPT to write everything.",
+      "Build a templated system: defined briefs per content type, AI generates first-draft variants, human review applies brand voice and accuracy checks, then ship through standard QA. The AI is a velocity multiplier on the structured part of the work. Brand judgment, voice, and accuracy stay human. The discipline is in the templates and the review checklist, not in the AI itself.",
+      "Don't use AI for content — too risky.",
+      "Replace the team with AI."
+    ],
+    correct: 1,
+    explanation: "The strong answer <strong>treats AI as a process improvement, not a magic wand</strong>. Templated briefs + AI drafting + human review + standard QA. The discipline is in the system, not the tool. This is the answer of someone who's actually built AI workflows.",
+    proTip: "This is your AI agent workflow at Life Fitness in transferable form. You can pull from real experience here. Use that."
+  },
+  {
+    section: 'rob', difficulty: 'medium', type: 'scenario',
+    context: "Rob asks: 'What's a question you've been chewing on lately that doesn't have a clean answer?'",
+    q: "Best response?",
+    options: [
+      "I don't really have any open questions.",
+      "Whatever you say first.",
+      "I've been thinking about whether AI search will eventually consolidate to one or two dominant engines (like Google in traditional search) or whether the future is fragmented across many AI systems. The implication for brand strategy is huge: if it's consolidated, you optimize for one set of behaviors; if it's fragmented, you build for multiple ones. I lean fragmented but I'm not sure.",
+      "Why people don't read books anymore."
+    ],
+    correct: 2,
+    explanation: "The strong answer <strong>reveals genuine intellectual curiosity about a real, unresolved question relevant to his work</strong>. It's not about having the answer — it's about thinking about questions Rob is also thinking about. This kind of exchange creates rapport.",
+    proTip: "Rob explicitly invites this kind of conversation in his LinkedIn — 'I write and think about how knowledge systems, AI, and brand strategy intersect.' If you bring an open question of your own, you're meeting him on his terms."
+  },
+
+  // ============================================
+  // ============ MIXED / FIT QUESTIONS ============
+  // ============================================
+  {
+    section: 'brand', difficulty: 'medium', type: 'scenario',
+    context: "You're asked: 'Tell us about a time you connected a brand initiative to a measurable digital outcome.'",
+    q: "Which answer best demonstrates the role's core competency?",
+    options: [
+      "I built a great campaign once at Life Fitness.",
+      "At Life Fitness, I conceived 'A Stay That Moves You,' the segment's first full-funnel integrated campaign. I shifted the positioning from product-centric to audience-centric, then orchestrated execution across social, content, web, email, and trade media. The brand work earned attention; the digital execution captured intent and converted it. We saw measurable lifts across the funnel.",
+      "I always connect brand and digital, that's my whole approach.",
+      "The brand team did the campaign; I just supported it."
+    ],
+    correct: 1,
+    explanation: "The strong answer <strong>names the campaign, articulates the strategic shift, names the channels, and connects them to outcomes</strong>. It's specific without being a bulleted list of tasks.",
+    proTip: "When telling stories, the formula is: 'I conceived [X], shifted [Y], orchestrated across [channels], and the result was [outcome].' Specificity beats abstraction every time."
+  },
+  {
+    section: 'commercial', difficulty: 'hard', type: 'scenario',
+    context: "Final question from Sneha: 'Why should we hire you over an internal Gatorade marketer who already knows our systems?'",
+    q: "Strongest framing?",
+    options: [
+      "Because I'm hungrier and will work harder.",
+      "Because internal marketers are already excellent at the work as-is. What I bring is six years of building things from zero — a startup marketing function from scratch, and an enterprise segment program at Life Fitness — plus active fluency in the AI workflow this team is leaning into. I'd be a complement to the bench, not a copy of it. The fastest path to value is bringing fresh patterns into a team that's already strong.",
+      "Internal candidates have political baggage.",
+      "I'm cheaper than an internal hire."
+    ],
+    correct: 1,
+    explanation: "The strong answer <strong>respects the internal bench while differentiating clearly</strong>. It names two specific 'build from zero' chapters and the AI angle. It also reframes the question — the team isn't hiring to replace, it's hiring to add patterns. That's the strategic frame for any external hire.",
+    proTip: "Never disparage internal candidates. Always position yourself as a 'complement, not a copy.' This is a graceful framing that hiring committees love."
+  },
+];
+
+// =================== APP STATE ===================
+const STORAGE_KEY = 'gatorade-combine-state-v2';
+
+function loadState() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (raw) return JSON.parse(raw);
+  } catch (e) {}
+  return {
+    personalBest: { all: 0, geo: 0, brand: 0, commercial: 0, rob: 0 },
+    sessionsCompleted: 0,
+    totalAnswered: 0,
+    totalCorrect: 0,
+  };
+}
+function saveState(state) {
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch (e) {}
+}
+
+let state = loadState();
+let session = null;
+
+function shuffle(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function getQuestionsForSection(section, count) {
+  const pool = section === 'all' ? QUESTIONS : QUESTIONS.filter(q => q.section === section);
+  return shuffle(pool).slice(0, Math.min(count, pool.length));
+}
+
+function rankFor(pct) {
+  if (pct >= 95) return { name: 'MVP', color: 'var(--orange)', sub: 'Hall of Fame caliber.' };
+  if (pct >= 85) return { name: 'PRO BOWL', color: 'var(--orange)', sub: 'Top of the league.' };
+  if (pct >= 70) return { name: 'STARTER', color: 'var(--orange)', sub: 'Earned the start.' };
+  if (pct >= 50) return { name: 'ROOKIE', color: 'var(--silver)', sub: 'On the roster.' };
+  return { name: 'PRACTICE SQUAD', color: 'var(--light)', sub: 'Keep grinding.' };
+}
+
+function updateProgress(pct) {
+  document.getElementById('progressBar').style.width = pct + '%';
+}
+
+function renderHome() {
+  updateProgress(0);
+  const app = document.getElementById('app');
+  const pb = state.personalBest;
+
+  const counts = {
+    geo: QUESTIONS.filter(q => q.section === 'geo').length,
+    brand: QUESTIONS.filter(q => q.section === 'brand').length,
+    commercial: QUESTIONS.filter(q => q.section === 'commercial').length,
+    rob: QUESTIONS.filter(q => q.section === 'rob').length,
+  };
+
+  app.innerHTML = `
+    <div class="header fade-up">
+      <div class="logo">
+        ${boltIcon(20, 'var(--orange)')}
+        <span class="logo-text">The Gatorade Combine</span>
+      </div>
+      <div class="stats-pill">
+        <div class="stat-item">
+          <div class="label">SESSIONS</div>
+          <div class="value">${state.sessionsCompleted}</div>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-item">
+          <div class="label">CORRECT</div>
+          <div class="value">${state.totalCorrect}/${state.totalAnswered}</div>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-item">
+          <div class="label">PB</div>
+          <div class="value">${pb.all}%</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero fade-up">
+      <div class="hero-tag">${boltIcon(12, 'var(--orange)')} <span>Interview prep, gamified</span></div>
+      <h1>Train Like<br/><span class="accent">It's Game</span> <span class="accent2">Day.</span></h1>
+      <p>Quiz-driven prep for the Gatorade AI &amp; Digital Capabilities role. Four labs covering
+        GEO/AI, Brand &amp; Culture (Brandon's lens), Commercial &amp; Ops (Sneha's lens), and the
+        Rob Lab (platform, ecosystem, his specific work). Coaching mode is always on.</p>
+    </div>
+
+    <div class="section-header fade-up">
+      <div class="label">Pick Your Drill</div>
+      <div class="line"></div>
+    </div>
+
+    <div class="mode-grid fade-up">
+      <button class="mode-card" onclick="startSession('all', 15)">
+        <div class="mode-num">01 / FULL COMBINE</div>
+        <div class="mode-title">All Four<br/>Sections</div>
+        <div class="mode-subtitle">Mixed drill across every section. The complete prep simulation.</div>
+        <div class="mode-meta">
+          <span>15 questions</span>
+          <span>•</span>
+          <span class="pb">PB: ${pb.all}%</span>
+        </div>
+      </button>
+
+      <button class="mode-card" onclick="startSession('geo', 10)">
+        <div class="mode-num">02 / GEO LAB</div>
+        <div class="mode-title">AI &amp;<br/>Discoverability</div>
+        <div class="mode-subtitle">Generative Engine Optimization, AI search measurement, content architecture.</div>
+        <div class="mode-meta">
+          <span>10 questions</span>
+          <span>•</span>
+          <span>${counts.geo} total</span>
+          <span>•</span>
+          <span class="pb">PB: ${pb.geo}%</span>
+        </div>
+      </button>
+
+      <button class="mode-card" onclick="startSession('brand', 10)">
+        <div class="mode-num">03 / BRAND LAB</div>
+        <div class="mode-title">Brand &amp;<br/>Culture</div>
+        <div class="mode-subtitle">Brandon's lens. Cultural moments, Gatorade campaigns, social-to-commerce.</div>
+        <div class="mode-meta">
+          <span>10 questions</span>
+          <span>•</span>
+          <span>${counts.brand} total</span>
+          <span>•</span>
+          <span class="pb">PB: ${pb.brand}%</span>
+        </div>
+      </button>
+
+      <button class="mode-card" onclick="startSession('commercial', 10)">
+        <div class="mode-num">04 / OPS LAB</div>
+        <div class="mode-title">Commercial<br/>&amp; Operations</div>
+        <div class="mode-subtitle">Sneha's lens. Calendar, FAQ, CRM, KPIs, eCom mechanics.</div>
+        <div class="mode-meta">
+          <span>10 questions</span>
+          <span>•</span>
+          <span>${counts.commercial} total</span>
+          <span>•</span>
+          <span class="pb">PB: ${pb.commercial}%</span>
+        </div>
+      </button>
+
+      <button class="mode-card purple" onclick="startSession('rob', 10)">
+        <div class="mode-num">05 / ROB LAB</div>
+        <div class="mode-title">Platform<br/>&amp; Ecosystem</div>
+        <div class="mode-subtitle">Rob's specific domain. His career, the Gx ecosystem, Gatorade.com, his philosophy.</div>
+        <div class="mode-meta">
+          <span>10 questions</span>
+          <span>•</span>
+          <span>${counts.rob} total</span>
+          <span>•</span>
+          <span class="pb">PB: ${pb.rob}%</span>
+        </div>
+      </button>
+    </div>
+
+    <div class="footer fade-up">
+      <div class="footer-left">BUILT FOR BLAKE  /  ${QUESTIONS.length} QUESTIONS  /  ROUND 03 PREP</div>
+      <div class="footer-right">
+        <button class="btn-ghost" onclick="resetStats()">Reset Stats</button>
+      </div>
+    </div>
+  `;
+}
+
+function startSession(section, count) {
+  const questions = getQuestionsForSection(section, count);
+  session = {
+    section,
+    questions,
+    currentIndex: 0,
+    answers: [],
+    streak: 0,
+    maxStreak: 0,
+    startTime: Date.now(),
+  };
+  renderQuestion();
+}
+
+function renderQuestion() {
+  const q = session.questions[session.currentIndex];
+  const total = session.questions.length;
+  const idx = session.currentIndex;
+  const pct = ((idx) / total) * 100;
+  updateProgress(pct);
+
+  const app = document.getElementById('app');
+  const diffClass = q.difficulty === 'easy' ? 'diff-easy' :
+                    q.difficulty === 'medium' ? 'diff-medium' : 'diff-hard';
+
+  const streakHTML = session.streak >= 3 ? `
+    <div class="streak ${session.streak >= 5 ? 'fire' : ''}">
+      <div class="label">STREAK</div>
+      <div class="value">${session.streak}🔥</div>
+    </div>
+  ` : '';
+
+  const sectionLabels = { geo: 'GEO LAB', brand: 'BRAND LAB', commercial: 'OPS LAB', rob: 'ROB LAB' };
+  const isRob = q.section === 'rob';
+
+  app.innerHTML = `
+    ${streakHTML}
+    <div class="header fade-up">
+      <div class="logo">
+        ${boltIcon(20, 'var(--orange)')}
+        <span class="logo-text">The Gatorade Combine</span>
+      </div>
+      <button class="btn-ghost" onclick="confirmExit()">← Exit</button>
+    </div>
+
+    <div class="quiz-screen">
+      <div class="quiz-meta">
+        <div class="quiz-meta-left">
+          <div class="difficulty-badge ${diffClass}">${q.difficulty}</div>
+          <div class="question-counter">Q ${idx + 1} / ${total}</div>
+        </div>
+        <div class="quiz-progress">
+          <div class="quiz-progress-fill" style="width: ${(idx / total) * 100}%"></div>
+        </div>
+      </div>
+
+      <div class="question-card ${isRob ? 'purple' : ''}">
+        <div class="question-type ${isRob ? 'purple' : ''}">
+          ${q.type === 'scenario' ? '⚡ Scenario Drill' : '◇ Knowledge Check'}
+          &nbsp;&nbsp;/&nbsp;&nbsp;
+          ${sectionLabels[q.section]}
+        </div>
+        <div class="question-text">${q.q}</div>
+        ${q.context ? `<div class="question-context">${q.context}</div>` : ''}
+      </div>
+
+      <div class="answers" id="answersContainer">
+        ${q.options.map((opt, i) => `
+          <button class="answer" onclick="selectAnswer(${i})" data-idx="${i}">
+            <span class="letter">${String.fromCharCode(65 + i)}</span>
+            <span class="text">${opt}</span>
+          </button>
+        `).join('')}
+      </div>
+    </div>
+  `;
+}
+
+function selectAnswer(selectedIdx) {
+  const q = session.questions[session.currentIndex];
+  const correct = selectedIdx === q.correct;
+
+  session.answers.push({
+    section: q.section,
+    correct,
+    questionIdx: session.currentIndex,
+  });
+
+  if (correct) {
+    session.streak += 1;
+    if (session.streak > session.maxStreak) session.maxStreak = session.streak;
+  } else {
+    session.streak = 0;
+  }
+
+  const buttons = document.querySelectorAll('.answer');
+  buttons.forEach((btn, i) => {
+    btn.classList.add('disabled');
+    btn.onclick = null;
+    if (i === q.correct) btn.classList.add('correct');
+    if (i === selectedIdx && i !== q.correct) btn.classList.add('incorrect');
+  });
+
+  const feedbackHTML = `
+    <div class="feedback ${correct ? 'correct' : 'incorrect'}">
+      <div class="feedback-header">
+        <div class="feedback-badge ${correct ? 'correct' : 'incorrect'}">${correct ? '✓ Nice' : '✕ Reset'}</div>
+        <h3>${correct ? "That's the play." : "Here's the better answer:"}</h3>
+      </div>
+      <p>${q.explanation}</p>
+      ${q.proTip ? `
+        <div class="pro-tip">
+          <span class="pro-tip-label">PRO TIP</span>${q.proTip}
+        </div>
+      ` : ''}
+    </div>
+    <div class="actions">
+      <button class="btn" onclick="nextQuestion()">
+        ${session.currentIndex + 1 >= session.questions.length ? 'See Results' : 'Next Question'}
+        ${boltIcon(12, '#000')}
+      </button>
+    </div>
+  `;
+
+  const answersContainer = document.getElementById('answersContainer');
+  answersContainer.insertAdjacentHTML('afterend', feedbackHTML);
+
+  const total = session.questions.length;
+  updateProgress(((session.currentIndex + 1) / total) * 100);
+}
+
+function nextQuestion() {
+  session.currentIndex += 1;
+  if (session.currentIndex >= session.questions.length) {
+    finishSession();
+  } else {
+    renderQuestion();
+  }
+}
+
+function confirmExit() {
+  if (confirm("Exit this session? Your progress won't be saved.")) {
+    renderHome();
+  }
+}
+
+function finishSession() {
+  const total = session.answers.length;
+  const correct = session.answers.filter(a => a.correct).length;
+  const pct = Math.round((correct / total) * 100);
+  const elapsed = Math.round((Date.now() - session.startTime) / 1000);
+
+  state.sessionsCompleted += 1;
+  state.totalAnswered += total;
+  state.totalCorrect += correct;
+
+  const sectionKey = session.section === 'all' ? 'all' : session.section;
+  let isPB = false;
+  if (pct > state.personalBest[sectionKey]) {
+    state.personalBest[sectionKey] = pct;
+    isPB = true;
+  }
+  saveState(state);
+
+  const breakdown = {};
+  session.answers.forEach(a => {
+    if (!breakdown[a.section]) breakdown[a.section] = { correct: 0, total: 0 };
+    breakdown[a.section].total += 1;
+    if (a.correct) breakdown[a.section].correct += 1;
+  });
+
+  const rank = rankFor(pct);
+  updateProgress(100);
+
+  const sectionLabels = { geo: 'GEO LAB', brand: 'BRAND LAB', commercial: 'OPS LAB', rob: 'ROB LAB' };
+
+  const breakdownHTML = Object.keys(breakdown).length > 1 ? `
+    <div class="results-breakdown fade-up">
+      <div class="breakdown-header">
+        ${boltIcon(14, 'var(--orange)')}
+        <div class="label">Section Breakdown</div>
+      </div>
+      ${Object.entries(breakdown).map(([sec, data]) => {
+        const sPct = Math.round((data.correct / data.total) * 100);
+        return `
+          <div class="breakdown-row">
+            <div class="area">${sectionLabels[sec]}</div>
+            <div class="breakdown-bar">
+              <div class="breakdown-fill" style="width: ${sPct}%"></div>
+            </div>
+            <div class="breakdown-pct">${data.correct}/${data.total}</div>
+          </div>
+        `;
+      }).join('')}
+    </div>
+  ` : '';
+
+  const app = document.getElementById('app');
+  app.innerHTML = `
+    <div class="header fade-up">
+      <div class="logo">
+        ${boltIcon(20, 'var(--orange)')}
+        <span class="logo-text">The Gatorade Combine</span>
+      </div>
+      <button class="btn-ghost" onclick="renderHome()">← Home</button>
+    </div>
+
+    <div class="results-screen">
+      <div class="results-hero">
+        <div class="results-rank">DRAFT CARD</div>
+        <div class="results-title">
+          <span class="results-rank-color" style="color: ${rank.color}">${rank.name}</span>
+        </div>
+        <div class="results-score">${correct}<span class="total">/${total} (${pct}%)</span></div>
+        <div class="results-meta">
+          <span>${rank.sub}</span>
+          <span style="color: var(--gray)">•</span>
+          <span>Max streak: <span class="v">${session.maxStreak}</span></span>
+          <span style="color: var(--gray)">•</span>
+          <span>Time: <span class="v">${elapsed}s</span></span>
+        </div>
+      </div>
+
+      ${isPB ? `
+        <div class="pb-banner">
+          ${boltIcon(16, 'var(--orange)')}
+          <div class="pb-text">New Personal Best</div>
+          <div class="pb-sub">Section: ${session.section === 'all' ? 'Full Combine' : sectionLabels[session.section]}</div>
+        </div>
+      ` : ''}
+
+      ${breakdownHTML}
+
+      <div class="actions">
+        <button class="btn" onclick="startSession('${session.section}', ${total})">
+          Run It Back ${boltIcon(12, '#000')}
+        </button>
+        <button class="btn btn-secondary" onclick="renderHome()">
+          Pick Different Drill
+        </button>
+      </div>
+
+      <div class="footer">
+        <div class="footer-left">SESSION ${state.sessionsCompleted}  /  TOTAL: ${state.totalCorrect}/${state.totalAnswered}</div>
+      </div>
+    </div>
+  `;
+}
+
+function resetStats() {
+  if (confirm("Reset all stats and personal bests? This can't be undone.")) {
+    state = {
+      personalBest: { all: 0, geo: 0, brand: 0, commercial: 0, rob: 0 },
+      sessionsCompleted: 0,
+      totalAnswered: 0,
+      totalCorrect: 0,
+    };
+    saveState(state);
+    renderHome();
+  }
+}
+
+renderHome();
+</script>
+</body>
+</html>
